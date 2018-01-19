@@ -22,7 +22,8 @@ for time = 1:iters
     Q_val = -inf;
     action_optimal_1 = 0;
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Epsilon Greedy Policy %%%%%%%%%%%%%%%%%%%%%%%% 
-    epsln = binornd(1,.9);%8 + time/(5*iters));
+    p = .9 %8 + time/(5*iters)
+    epsln = binornd(1,p););
     for indx = 1:length(possible_actions)
         pos = update_position(curr,possible_actions(indx),mat);
         
@@ -60,10 +61,10 @@ for time = 1:iters
             end;
         end;
         % Q(s,a) = (1-alpha)Q(s,a) + alpha*(R + gamma*(max over actions at s' Q(a',s'))) 
+        action_now = action_optimal;      
         Q(action_now,curr) = (1-alpha)*Q(action_now,curr) + alpha*(R + gamma*Q(t3,new));
         % updating the value function as \sum_i^N p_i*R_i over actions 
-        V(curr) = epsln*Q(action_optimal_1,curr) + (1-epsln)*(sum(Q(:,curr))-Q(action_optimal_1,curr))/(length(possible_actions)-1);
-        action_now = action_optimal;      
+        V(curr) = p*Q(action_optimal_1,curr) + (1-p)*(sum(Q(:,curr))-Q(action_optimal_1,curr))/(length(possible_actions)-1);
         curr = new;
         possible_actions = legal_actions(curr,mat);
         Vmat = reshape(V,length(mat), length(mat));
