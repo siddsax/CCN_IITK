@@ -6,7 +6,7 @@ environment_design;
 
 
 vec = reshape(mat,1,length(mat)^2);
-% initializing expected future reward at each position to zero
+
 V = zeros(1,length(vec));
 Q = zeros(4,length(vec));
 
@@ -19,7 +19,6 @@ possible_actions = legal_actions(curr,mat);
 rew = 0;
 iters = 10000;
 for time = 1:iters
-% reward at present position
     Q_val = -inf;
     action_optimal_1 = 0;
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Epsilon Greedy Policy %%%%%%%%%%%%%%%%%%%%%%%% 
@@ -41,9 +40,7 @@ for time = 1:iters
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
     R = vec(curr);
     rew = rew + R;
-    % choosing a random move
     new = update_position(curr,action_optimal,mat);
-    % updating the expected future reward at present position
     if(time==1);
         action_now = action_optimal;      
         curr = new;
@@ -64,7 +61,7 @@ for time = 1:iters
         end;
         % Q(s,a) = (1-alpha)Q(s,a) + alpha*(R + gamma*(max over actions at s' Q(a',s'))) 
         Q(action_now,curr) = (1-alpha)*Q(action_now,curr) + alpha*(R + gamma*Q(t3,new));
-        % V = \sum[probab_i*action_i]
+        % updating the value function as \sum_i^N p_i*R_i over actions 
         V(curr) = epsln*Q(action_optimal_1,curr) + (1-epsln)*(sum(Q(:,curr))-Q(action_optimal_1,curr))/(length(possible_actions)-1);
         action_now = action_optimal;      
         curr = new;
