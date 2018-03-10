@@ -22,8 +22,8 @@ for time = 1:iters
     Q_val = -inf;
     action_optimal_1 = 0;
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Epsilon Greedy Policy %%%%%%%%%%%%%%%%%%%%%%%% 
-    p = .9 %8 + time/(5*iters)
-    epsln = binornd(1,p););
+    p = .5 + time/(2*iters);
+    epsln = binornd(1,p);
     for indx = 1:length(possible_actions)
         pos = update_position(curr,possible_actions(indx),mat);
         
@@ -73,6 +73,7 @@ for time = 1:iters
         cumR(time) = R;
     end;
 end;
+% disp(Q)
 disp(rew)
 display(Vmat);
  plot(error);
