@@ -112,9 +112,8 @@ for i in range(len(options_all)):
 for i in range(len(answers)):
 	answers[i] = parser(answers[i][0], ps, lmtzr)
 
-# print(options_all, answers)
-# p = predict(questions[23],options_all[23])
-# if(answers[23] == options_all[23,p]):
+# p = predict(questions[5],options_all[5])
+# if(answers[5] == options_all[5][p]):
 # 	print("Correct")
 # else:
 # 	print("Incorrect")
@@ -122,8 +121,8 @@ for i in range(len(answers)):
 num = 0
 for i in range(len(answers)):
 	p = predict(questions[i],options_all[i])
-	print(p)
-	if(answers[i] == options_all[i,p]):
+	print('The predicted answer is ', p)
+	if(answers[i] == options_all[i][p]):
 		num += 1
 print("% Correct = ", num/len(answers)*100)
 	

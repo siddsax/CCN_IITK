@@ -1,0 +1,20 @@
+We have used 2 techniques for doing this task.
+
+Approach 1: Attention Mechanism
+run 'python3 attention.py'
+The steps are 
+> First we calculate attention on question words. The more distant(NGD) the word is from others the more attention weight it gets. 
+> For each option, for each word in option we calculate the distance between the option and the question wrt attention weights.
+> Predicted the option with minimum distance
+
+Approach2: Learning Word Vectors using SVD and then 
+			using cosine similarity to compute best answer
+Step are:
+> We first extract the words in the corpus.
+> Then we construct the similarity matrix b/w words by using inverse of NGD. 
+> We do SVD on this to get word vectors.
+> For question/option we form the sentence/phrase vector by averaging the word vectors in that.
+> Then we use cosine similarty to predict the answer
+
+We have in general used stemming and lemmatization using NLTK to form good search queries before passing them to 
+the algorithm.
