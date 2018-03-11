@@ -121,19 +121,27 @@ for options in options_all:
 				words.append(word)
 				word_id[word] = ids
 				ids+=1
-
+print(words[0])
+print(words[77])
+#0,77
 print("web scraping started")
+rw = 0
 print("We have " + str(len(words)) + " words")
 wwMat = np.zeros((len(words),len(words)))
-for word in words:
-	time_row = time.time()
-	for w2 in words:
-		time_el = time.time()
-		wwMat[word_id[word],word_id[w2]] = computeNGD(word,w2)
-		print("Time to find an element is " + str(time.time()-time_el))
-	print("Time to find a row is "+ str(time.time()-time_row))
-	wwMat[word_id[word],:] = wwMat[word_id[word],:]#/wwMat[word_id[word],word_id[word]] 
 
+wor2 = words[77:]
+wor3 = words[7:] 
+for word in wor3:
+	time_row = time.time()
+	rw+=1
+	for w2 in wor2:
+		time_el = time.time()
+		print("working towards ({0},{1}) ".format(word,w2))
+		wwMat[word_id[word],word_id[w2]] = computeNGD(word,w2)
+		print("Time to find an element of row " + str(rw) + " is " + str(time.time()-time_el))
+	wwMat[word_id[word],:] = wwMat[word_id[word],:]#/wwMat[word_id[word],word_id[word]] 
+	#rw+=1
+	print("Time to reach row " + str(rw) + " is "+ str(time.time()-time_row))
 mx = np.max(wwMat)
 wwMat = 1 - wwMat/mx
 np.save('wwMat.np', wwMat)
