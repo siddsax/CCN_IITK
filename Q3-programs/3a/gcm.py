@@ -31,7 +31,7 @@ class gcm():
 				ns[i]+= self.N[(i,j)]*self.s(self.exemplars[j], y)
 			ns[i]*=self.gammas[i]
 			sum_ns+= ns[i]
-		# print(ns)
+		print(ns)
 		ns = ns/sum_ns
 		label = np.argmax(ns)
 		return label
@@ -60,10 +60,10 @@ for i in range(np.shape(exemplars)[0]):
 # print(N)
 alphas = [5,1]
 beta = 1
-gammas = [1,1,.5]
+gammas = [1,1,.7]
 model = gcm(alphas, beta, exemplars, gammas, N)
 
 for i in range(np.shape(test)[0]):
 	print(test[i])
-	print(model.prediction(test[i])) 
+	print(model.prediction(test[i])+1) 
 
