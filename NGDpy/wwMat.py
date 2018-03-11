@@ -7,10 +7,10 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from parser import parser
-
+import pickle
 
 def save_obj(obj, name ):
-    with open('obj/'+ name + '.pkl', 'wb') as f:
+    with open(name + '.pkl', 'wb') as f:
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
 
@@ -121,20 +121,16 @@ for options in options_all:
 				words.append(word)
 				word_id[word] = ids
 				ids+=1
-print(words[0])
-print(words[77])
-#0,77
+
 print("web scraping started")
 rw = 0
 print("We have " + str(len(words)) + " words")
 wwMat = np.zeros((len(words),len(words)))
 
-wor2 = words[77:]
-wor3 = words[7:] 
-for word in wor3:
+for word in words:
 	time_row = time.time()
 	rw+=1
-	for w2 in wor2:
+	for w2 in words:
 		time_el = time.time()
 		print("working towards ({0},{1}) ".format(word,w2))
 		wwMat[word_id[word],word_id[w2]] = computeNGD(word,w2)
@@ -144,5 +140,5 @@ for word in wor3:
 	print("Time to reach row " + str(rw) + " is "+ str(time.time()-time_row))
 mx = np.max(wwMat)
 wwMat = 1 - wwMat/mx
-np.save('wwMat.np', wwMat)
-save_obj(word_id, "word_ids.pik")
+np.save('wwMat', wwMat)
+save_obj(word_id, "word_ids")
