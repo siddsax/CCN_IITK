@@ -99,14 +99,13 @@ options_all = [
 
 
 
-D = 2#25
+D = 25
 X = np.load('wwMat.npy')
 # np.matrix([1,2,3,4,214,123,22,123,1,3,14,2,12,4,2,12,123,2,312,3,12,424,353,34]).reshape((3,8))
 pca = PCA(n_components=D, svd_solver='full')
 pca.fit(X)
 word_embeddings = pca.transform(X)
 n_word_embeddings = StandardScaler().fit_transform(word_embeddings)
-print(n_word_embeddings)
 
 word_ids = load_obj("word_ids")
 ps = PorterStemmer()
@@ -116,8 +115,11 @@ q_emd = []
 for question in questions:
 	question = parser(question[0], ps, lmtzr)
 	emb = np.zeros(D)
+	n = 0
 	for word in question:
+		n+=1
 		emb +=  n_word_embeddings[word_ids[word],:]
+	emb = emb/n
 	q_emd.append(emb)
 
 op_emd = []
@@ -126,9 +128,11 @@ for options in options_all:
 	for option in options:
 		option = parser(option[0], ps, lmtzr)
 		emb = np.zeros(D)
+		n=0
 		for word in option:
+			n+=1
 			emb +=  n_word_embeddings[word_ids[word],:]
-		this_op_emd.append(emb)	
+		this_op_emd.append(emb/n)	
 	op_emd.append(this_op_emd)
 
 q_no = 0
